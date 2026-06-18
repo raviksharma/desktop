@@ -17,6 +17,11 @@ ApplyGovernanceLabel::ApplyGovernanceLabel(QObject *parent)
 
 void ApplyGovernanceLabel::start()
 {
+    if (!checkParameters()) {
+        Q_EMIT finishedWitherror(500, {});
+        return;
+    }
+
     setOcsGovernanceJob(QPointer<OcsGovernanceJob>{new OcsGovernanceJob{account()}});
 
     connect(ocsGovernanceJob().data(), &OcsJob::jobFinished,

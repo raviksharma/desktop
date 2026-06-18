@@ -17,6 +17,11 @@ DeleteGovernanceLabel::DeleteGovernanceLabel(QObject *parent)
 
 void DeleteGovernanceLabel::start()
 {
+    if (!checkParameters()) {
+        Q_EMIT finishedWitherror(500, {});
+        return;
+    }
+
     setOcsGovernanceJob(QPointer<OcsGovernanceJob>{new OcsGovernanceJob{account()}});
 
     connect(ocsGovernanceJob().data(), &OcsJob::jobFinished,
